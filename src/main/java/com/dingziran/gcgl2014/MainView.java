@@ -1,5 +1,6 @@
 package com.dingziran.gcgl2014;
 
+import com.dingziran.gcgl2014.user.UserView;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -16,9 +17,9 @@ public class MainView extends VerticalLayout{
 	private HorizontalLayout head;
 	private TabSheet content;
 	public MainView (){
+		initJPAContainer();
 		buildMainLayout();
 		initListener();
-		initJPAContainer();
 	}
 	private void initJPAContainer() {
 		
@@ -38,6 +39,9 @@ public class MainView extends VerticalLayout{
 		body.setMargin(true);
 		buildBody();
 		addComponent(body);
+
+		setExpandRatio(body, 1);
+		setSizeFull();
 	
 	}
 	private void buildBody() {
@@ -55,11 +59,12 @@ public class MainView extends VerticalLayout{
 		
 		body.addComponent(head);
 		body.addComponent(content);
+		body.setExpandRatio(content, 1);
 		
 		
 	}
 	private void buildContent() {
-		// TODO Auto-generated method stub
+		content.addTab(new UserView(),"用户列表");
 		
 	}
 	private void buildMenu() {
