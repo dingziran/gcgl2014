@@ -8,33 +8,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 @Entity
-public class UserInfo {
+public class Project {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String name;
-
-    private String signature;
     
-    @ManyToMany(mappedBy="members")
-    private Set<Project> projects;
+    private String description;
     
-	public String getSignature() {
-		return signature;
-	}
-
-	public void setSignature(String signature) {
-		this.signature = signature;
-	}
-
-	public Set<Project> getProjects() {
-		return projects;
-	}
-
-	public void setProjects(Set<Project> projects) {
-		this.projects = projects;
-	}
+	@ManyToMany
+	private Set<UserInfo> members;
 
 	public Long getId() {
 		return id;
@@ -51,4 +36,21 @@ public class UserInfo {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Set<UserInfo> getMembers() {
+		return members;
+	}
+
+	public void setMembers(Set<UserInfo> members) {
+		this.members = members;
+	}
+	
 }
