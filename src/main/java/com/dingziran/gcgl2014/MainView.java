@@ -1,5 +1,6 @@
 package com.dingziran.gcgl2014;
 
+import com.dingziran.gcgl2014.project.ProjectView;
 import com.dingziran.gcgl2014.user.UserView;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -65,6 +66,7 @@ public class MainView extends VerticalLayout{
 	}
 	private void buildContent() {
 		content.addTab(new UserView(),"用户列表");
+		content.addTab(new ProjectView(),"项目列表");
 		
 	}
 	private void buildMenu() {

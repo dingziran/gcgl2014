@@ -1,5 +1,6 @@
-package com.dingziran.gcgl2014.user;
+package com.dingziran.gcgl2014.project;
 
+import com.dingziran.gcgl2014.domain.Project;
 import com.dingziran.gcgl2014.domain.UserInfo;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Item;
@@ -19,26 +20,26 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
-public class UserEditor extends Window{
+public class ProjectEditor extends Window{
 	private final Item item;
 	private FormLayout form;
 	private Button saveButton;
 	private Button cancelButton;
-	private final JPAContainer<UserInfo> users;
+	private final JPAContainer<Project> projects;
 	private final FieldGroup binder;
 	private Boolean isCreate;
-	public UserEditor(Item item, JPAContainer<UserInfo> users,Boolean isCreate) {
+	public ProjectEditor(Item item, JPAContainer<Project> projects,Boolean isCreate) {
 		this.item = item;
-		this.users=users;
+		this.projects=projects;
 		this.isCreate=isCreate;
 		form = new FormLayout();
-		setCaption("填写用户信息");
+		setCaption("填写项目信息");
 
 		setContent(form);
 		binder = new FieldGroup(item);
 		binder.setFieldFactory(new DefaultFieldGroupFieldFactory());
 		form.addComponent(binder.buildAndBind("Name", "name"));
-		form.addComponent(binder.buildAndBind("Signature","signature"));
+		form.addComponent(binder.buildAndBind("Description","description"));
 		binder.setBuffered(true);
 		
 		
@@ -53,7 +54,7 @@ public class UserEditor extends Window{
 				try {
 					binder.commit();
 					if(isCreate)
-						users.addEntity(((BeanItem<UserInfo>)item).getBean());
+						projects.addEntity(((BeanItem<Project>)item).getBean());
 					close();
 				} catch (CommitException e) {
 					e.printStackTrace();
