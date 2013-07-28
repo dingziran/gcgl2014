@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
 import com.dingziran.gcgl2014.domain.Project;
+import com.dingziran.gcgl2014.domain.TodoList;
 import com.dingziran.gcgl2014.domain.UserInfo;
 
 public class DemoGenerator {
@@ -15,6 +16,7 @@ public class DemoGenerator {
 	final static String[] signatures={"今天天气不错","早起写代码","最近电影很好看"};
 	final static String[] projectnames={"三峡水坝","神州20号","北航食堂改建","事业单位改革"};
 	final static String[] projectdes={"本项目由XXX投资","国家250工程之一","宇宙自然基金项目","开源项目，为非洲儿童捐款捐物"};
+	final static String[] tasks={"接水","洗菜","煮饭","烧水","切菜","端菜","吃饭"};
 	public static void create(){
 		EntityManager em = Persistence.createEntityManagerFactory("gcgl2014").createEntityManager();
 		em.getTransaction().begin();
@@ -31,7 +33,14 @@ public class DemoGenerator {
 			em.persist(ui);
 			p.setMembers(users);
 			em.persist(p);
+			for(int i=0;i<3;i++){
+				TodoList tl=new TodoList();
+				tl.setName(tasks[r.nextInt(tasks.length)]);
+				tl.setProject(p);
+				em.persist(tl);
+			}
 		}
+		
 		em.getTransaction().commit();
 		
 	}
