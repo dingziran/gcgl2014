@@ -26,6 +26,7 @@ public class ProjectView extends Panel{
     private Button editButton;
     private HorizontalLayout toolbar;
 	private JPAContainer<Project> projects;
+	private String[] visibleCol=new String[]{"name","description"};
 	public ProjectView(){
 		initJPAContainer();
 		buildMainLayout();
@@ -99,6 +100,7 @@ public class ProjectView extends Panel{
 		ts.addComponent(toolbar);
 		
 		table = new Table(null,projects);
+		table.setVisibleColumns(visibleCol);
 		table.setSizeFull();
 		table.setSelectable(true);
         table.setImmediate(true);

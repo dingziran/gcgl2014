@@ -1,6 +1,10 @@
-package com.dingziran.gcgl2014.user;
+package com.dingziran.gcgl2014.todo;
+
+
+import java.util.Date;
 
 import com.dingziran.gcgl2014.domain.Project;
+import com.dingziran.gcgl2014.domain.TodoList;
 import com.dingziran.gcgl2014.domain.UserInfo;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container;
@@ -18,30 +22,45 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
 
-public class UserEditor extends Window{
+public class TodoEditor extends Window{
 	private final Item item;
 	private FormLayout form;
 	private Button saveButton;
 	private Button cancelButton;
-	private final JPAContainer<UserInfo> users;
+	private final JPAContainer<TodoList> todos;
 	private final FieldGroup binder;
 	private Boolean isCreate;
-	public UserEditor(Item item, JPAContainer<UserInfo> users,Boolean isCreate) {
+	public TodoEditor(Item item, JPAContainer<TodoList> todos,Boolean isCreate) {
 		this.item = item;
-		this.users=users;
+		this.todos=todos;
 		this.isCreate=isCreate;
 		form = new FormLayout();
-		setCaption("填写用户信息");
+		setCaption("填写任务信息");
 
 		setContent(form);
 		binder = new FieldGroup(item);
-		binder.setFieldFactory(new DefaultFieldGroupFieldFactory());
+		 binder.setFieldFactory(new DefaultFieldGroupFieldFactory() {
+	            @Override
+	            public <T extends Field> T createField(final Class<?> type,
+	                    final Class<T> fieldType) {
+	                T field;
+	                if (Date.class == type) {
+	                    field = (T) new PopupDateField();
+	                } else {
+	                    field = super.createField(type, fieldType);
+	                }
+	                return field;
+	            }
+	        });
 		form.addComponent(binder.buildAndBind("Name", "name"));
-		form.addComponent(binder.buildAndBind("Signature","signature"));
+		form.addComponent(binder.buildAndBind("Description","description"));
+		form.addComponent(binder.buildAndBind("StartDate", "startDate"));
+		form.addComponent(binder.buildAndBind("EndDate", "endDate"));
 		binder.setBuffered(true);
 		
 		
@@ -56,7 +75,7 @@ public class UserEditor extends Window{
 				try {
 					binder.commit();
 					if(isCreate)
-						users.addEntity(((BeanItem<UserInfo>)item).getBean());
+						todos.addEntity(((BeanItem<TodoList>)item).getBean());
 					close();
 				} catch (CommitException e) {
 					e.printStackTrace();

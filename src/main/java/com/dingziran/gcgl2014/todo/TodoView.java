@@ -1,7 +1,8 @@
-package com.dingziran.gcgl2014.user;
+package com.dingziran.gcgl2014.todo;
 
 import java.util.Arrays;
 
+import com.dingziran.gcgl2014.domain.TodoList;
 import com.dingziran.gcgl2014.domain.UserInfo;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
@@ -19,22 +20,22 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-public class UserView extends Panel{
+public class TodoView extends Panel{
 	private Table table;
 	private VerticalLayout ts;
     private Button newButton;
     private Button deleteButton;
     private Button editButton;
     private HorizontalLayout toolbar;
-	private JPAContainer<UserInfo> users;
-	private String[] visibleCol=new String[]{"name","signature"};
-	public UserView(){
+	private JPAContainer<TodoList> todos;
+	private String[] visibleCol=new String[]{"name","description","startDate","endDate"};
+	public TodoView(){
 		initJPAContainer();
 		buildMainLayout();
 		initListener();
 	}
 	private void initJPAContainer() {
-		users=JPAContainerFactory.make(UserInfo.class,"gcgl2014");
+		todos=JPAContainerFactory.make(TodoList.class,"gcgl2014");
 		
 	}
 	private void initListener() {
@@ -55,8 +56,8 @@ public class UserView extends Panel{
 			@Override
 			public void buttonClick(ClickEvent event) {
 
-				final BeanItem<UserInfo> item=new BeanItem<UserInfo>(new UserInfo());
-				UserEditor editor=new UserEditor(item,users,true);
+				final BeanItem<TodoList> item=new BeanItem<TodoList>(new TodoList());
+				TodoEditor editor=new TodoEditor(item,todos,true);
 				UI.getCurrent().addWindow(editor);
 				
 			}
@@ -67,7 +68,7 @@ public class UserView extends Panel{
 			@Override
 			public void buttonClick(ClickEvent event) {
                 UI.getCurrent().addWindow(
-                        new UserEditor(table.getItem(table.getValue()),users,false));
+                        new TodoEditor(table.getItem(table.getValue()),todos,false));
 				
 			}
 			
@@ -76,7 +77,7 @@ public class UserView extends Panel{
         deleteButton.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(ClickEvent event) {
-                users.removeItem(table.getValue());
+                todos.removeItem(table.getValue());
             }
         });
 	}
@@ -100,7 +101,7 @@ public class UserView extends Panel{
 		
 		ts.addComponent(toolbar);
 		
-		table = new Table(null,users);
+		table = new Table(null,todos);
 		table.setVisibleColumns(visibleCol);
 		table.setSizeFull();
 		table.setSelectable(true);

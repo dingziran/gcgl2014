@@ -1,5 +1,6 @@
 package com.dingziran.gcgl2014;
 
+import com.dingziran.gcgl2014.util.DemoGenerator;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Button;
@@ -18,6 +19,7 @@ public class MyVaadinUI extends UI
 
     @Override
     protected void init(VaadinRequest request) {
+    	DemoGenerator.create();
         setContent(new MainView());
     }
 

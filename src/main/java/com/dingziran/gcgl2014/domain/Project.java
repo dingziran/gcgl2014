@@ -17,7 +17,7 @@ public class Project {
     private String name;
     
     private String description;
-    
+       
 	@ManyToMany
 	private Set<UserInfo> members;
 
