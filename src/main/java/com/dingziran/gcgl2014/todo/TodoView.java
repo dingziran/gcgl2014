@@ -1,7 +1,6 @@
 package com.dingziran.gcgl2014.todo;
 
-import java.util.Arrays;
-
+import com.dingziran.gcgl2014.domain.Project;
 import com.dingziran.gcgl2014.domain.TodoList;
 import com.dingziran.gcgl2014.domain.UserInfo;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -27,15 +26,16 @@ public class TodoView extends Panel{
     private Button deleteButton;
     private Button editButton;
     private HorizontalLayout toolbar;
-	private JPAContainer<TodoList> todos;
-	private String[] visibleCol=new String[]{"name","description","startDate","endDate"};
+	private JPAContainer<TodoList> container;
+	private String[] visibleCol=new String[]{"name","description","startDate","endDate","project.name"};
 	public TodoView(){
 		initJPAContainer();
 		buildMainLayout();
 		initListener();
 	}
 	private void initJPAContainer() {
-		todos=JPAContainerFactory.make(TodoList.class,"gcgl2014");
+		container=JPAContainerFactory.make(TodoList.class,"gcgl2014");
+		container.addNestedContainerProperty("project.name");
 		
 	}
 	private void initListener() {
@@ -57,7 +57,7 @@ public class TodoView extends Panel{
 			public void buttonClick(ClickEvent event) {
 
 				final BeanItem<TodoList> item=new BeanItem<TodoList>(new TodoList());
-				TodoEditor editor=new TodoEditor(item,todos,true);
+				TodoEditor editor=new TodoEditor(item,container,true);
 				UI.getCurrent().addWindow(editor);
 				
 			}
@@ -68,7 +68,7 @@ public class TodoView extends Panel{
 			@Override
 			public void buttonClick(ClickEvent event) {
                 UI.getCurrent().addWindow(
-                        new TodoEditor(table.getItem(table.getValue()),todos,false));
+                        new TodoEditor(table.getItem(table.getValue()),container,false));
 				
 			}
 			
@@ -77,7 +77,7 @@ public class TodoView extends Panel{
         deleteButton.addClickListener(new Button.ClickListener() {
 
             public void buttonClick(ClickEvent event) {
-                todos.removeItem(table.getValue());
+            	container.removeItem(table.getValue());
             }
         });
 	}
@@ -101,7 +101,7 @@ public class TodoView extends Panel{
 		
 		ts.addComponent(toolbar);
 		
-		table = new Table(null,todos);
+		table = new Table(null,container);
 		table.setVisibleColumns(visibleCol);
 		table.setSizeFull();
 		table.setSelectable(true);

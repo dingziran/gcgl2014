@@ -68,7 +68,7 @@ public class MainView extends VerticalLayout{
 	private void buildContent() {
 		content.addTab(new UserView(),"用户列表");
 		content.addTab(new ProjectView(),"项目列表");
-		content.addTab(new TodoView(),"待办事项");
+		content.addTab(new TodoView(),"任务列表");
 		
 	}
 	private void buildMenu() {
