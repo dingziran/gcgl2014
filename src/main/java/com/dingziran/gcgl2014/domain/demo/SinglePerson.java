@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class SinglePerson {
@@ -12,6 +13,14 @@ public class SinglePerson {
 	    private Long id;
 
 	    private String name;
+	    
+	    
+		public SinglePerson() {
+		}
+	    
+		public SinglePerson(String string) {
+			name=string;
+		}
 
 		public Long getId() {
 			return id;
@@ -28,5 +37,6 @@ public class SinglePerson {
 		public void setName(String name) {
 			this.name = name;
 		}
+
 	    
 }

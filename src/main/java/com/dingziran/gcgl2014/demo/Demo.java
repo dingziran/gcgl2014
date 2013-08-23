@@ -10,11 +10,12 @@ import com.vaadin.ui.VerticalLayout;
 public class Demo extends HorizontalLayout{
 	private VerticalLayout menu;
 	private Panel panel;
-	private Button list;
+	private Button b1;
+	private Button b2;
 	public Demo(){
 		menu=new VerticalLayout();
-		list=new Button("list");
-		list.addClickListener(new ClickListener(){
+		b1=new Button("查看实体列表");
+		b1.addClickListener(new ClickListener(){
 
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -24,7 +25,21 @@ public class Demo extends HorizontalLayout{
 			
 		});
 		
-		menu.addComponent(list);
+		b2=new Button("新建实体");
+		b2.addClickListener(new ClickListener(){
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				panel.setContent(new DemoCreate());
+				
+			}
+			
+		});
+		
+		
+		
+		menu.addComponent(b1);
+		menu.addComponent(b2);
 		panel=new Panel();
 
 		addComponent(menu);
