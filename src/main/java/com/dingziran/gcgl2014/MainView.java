@@ -1,5 +1,6 @@
 package com.dingziran.gcgl2014;
 
+import com.dingziran.gcgl2014.demo.Demo;
 import com.dingziran.gcgl2014.project.ProjectView;
 import com.dingziran.gcgl2014.todo.TodoView;
 import com.dingziran.gcgl2014.user.UserView;
@@ -7,6 +8,8 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
@@ -81,8 +84,18 @@ public class MainView extends VerticalLayout{
 				Notification.show(selectedItem.getText()+"Clicked!!");
 				
 			}
+			
 		};
 		manage.addItem("用户管理", com1);
 		manage.addItem("项目管理", com1);	
+		manage.addItem("demo", new Command(){
+
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().setContent(new Demo());
+				
+			}
+			
+		});
 	}
 }
