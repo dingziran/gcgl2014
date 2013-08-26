@@ -4,10 +4,12 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -27,7 +29,7 @@ public class Car {
     @Temporal(TemporalType.DATE)
     private Date buyDate;
     
-    @OneToMany
+    @OneToMany//(mappedBy="beUsed")
     private Set<SinglePerson> users=new HashSet<SinglePerson>();
     
 	public Long getId() {

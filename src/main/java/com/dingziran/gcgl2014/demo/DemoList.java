@@ -1,6 +1,7 @@
 package com.dingziran.gcgl2014.demo;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
 
 
@@ -8,6 +9,7 @@ import java.util.Set;
 
 import com.dingziran.gcgl2014.domain.demo.Car;
 import com.dingziran.gcgl2014.domain.demo.SinglePerson;
+import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.data.util.converter.Converter;
@@ -24,25 +26,16 @@ public class DemoList extends Panel {
 	private VerticalLayout vl=new VerticalLayout();
 	private Button edit=new Button("edit");
 	private Button delete=new Button("delete");
+	private Button deleteAll=new Button("delete all");
+	private Button test=new Button("test update");
 	JPAContainer<SinglePerson> persons=JPAContainerFactory.make(SinglePerson.class, "gcgl2014");
 	JPAContainer<Car> cars=JPAContainerFactory.make(Car.class, "gcgl2014");
 	private String[] visibleCol=new String[]{"id","name","person.name","buyDate","users"};
 	public DemoList(){
-		Car car=new Car();
-		car.setName("benz");
-		car.getUsers().add(new SinglePerson("bob"));
-		car.getUsers().add(new SinglePerson("john"));
-		car.getUsers().add(new SinglePerson("lisa"));
-		SinglePerson sp=new SinglePerson("dingziran");
-		car.getUsers().add(sp);
-		car.setBuyDate(new Date());
-		car.setPerson(sp);
-		
-		cars.addEntity(car);
 		cars.addNestedContainerProperty("person.name");
 		
-		
 		t=new Table("Cars",cars);
+		t.setImmediate(true);
 		t.setVisibleColumns(visibleCol);
 		t.setColumnHeader("person.name", "owner");
 		t.setSelectable(true);
@@ -62,12 +55,37 @@ public class DemoList extends Panel {
             public void buttonClick(ClickEvent event) {
             	cars.removeItem(t.getValue());
             }
+        });    
+		deleteAll.addClickListener(new Button.ClickListener() {
+
+            public void buttonClick(ClickEvent event) {
+            	cars.removeAllItems();
+            }
         });
+		test.addClickListener(new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Car car=new Car();
+				car.setName("benz");
+				car.getUsers().add(new SinglePerson("bob"));
+				car.getUsers().add(new SinglePerson("john"));
+				car.getUsers().add(new SinglePerson("lisa"));
+				SinglePerson sp=new SinglePerson("dingziran");
+				car.getUsers().add(sp);
+				car.setBuyDate(new Date());
+				car.setPerson(sp);
+				
+				cars.addEntity(car);
+			}
+		});
 		
 		vl.addComponent(edit);
 		vl.addComponent(delete);
-		
+		vl.addComponent(deleteAll);
+		vl.addComponent(test);
 		setContent(vl);
+
 	}
 }
 class SetConverter implements Converter<String, Set<SinglePerson>>{
@@ -84,7 +102,7 @@ class SetConverter implements Converter<String, Set<SinglePerson>>{
 			throws com.vaadin.data.util.converter.Converter.ConversionException {
 		String s="";
 		for(SinglePerson sp:value){
-			s+=sp.getName()+" ";
+			s+=sp.getName()+",";
 		}
 		return s;
 	}

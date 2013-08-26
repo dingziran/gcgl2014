@@ -1,5 +1,6 @@
 package com.dingziran.gcgl2014.domain.demo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +15,8 @@ public class SinglePerson {
 
 	    private String name;
 	    
+	    //@ManyToOne
+	    //private Car beUsed;
 	    
 		public SinglePerson() {
 		}
@@ -37,6 +40,14 @@ public class SinglePerson {
 		public void setName(String name) {
 			this.name = name;
 		}
+
+		//public Car getBeUsed() {
+		//	return beUsed;
+		//}
+
+		//public void setBeUsed(Car beUsed) {
+		//	this.beUsed = beUsed;
+		//}
 
 	    
 }

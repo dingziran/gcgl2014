@@ -1,5 +1,8 @@
 package com.dingziran.gcgl2014.demo;
 
+import com.dingziran.gcgl2014.domain.demo.Car;
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -12,6 +15,7 @@ public class Demo extends HorizontalLayout{
 	private Panel panel;
 	private Button b1;
 	private Button b2;
+	final JPAContainer<Car> cars=JPAContainerFactory.make(Car.class, "gcgl2014");
 	public Demo(){
 		menu=new VerticalLayout();
 		b1=new Button("查看实体列表");
@@ -19,6 +23,7 @@ public class Demo extends HorizontalLayout{
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+				//System.out.println("***********in demo:"+cars.getItem(31L).getEntity().getUsers().size());
 				panel.setContent(new DemoList());
 				
 			}
